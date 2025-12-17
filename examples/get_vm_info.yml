@@ -1,0 +1,102 @@
+---
+# Example playbook: Get VM information including IP address
+# This playbook demonstrates how to retrieve VM and VMI information
+
+- name: Get Virtual Machine Information
+  hosts: localhost
+  gather_facts: false
+  vars:
+    vm_name: "my-vm"
+
+  pre_tasks:
+    - name: Load Harvester settings from environment variables
+      set_fact:
+        harvesterpy_host: "{{ lookup('ansible.builtin.env', 'HARVESTER_HOST') }}"
+        harvesterpy_token: "{{ lookup('ansible.builtin.env', 'HARVESTER_TOKEN') }}"
+        harvesterpy_namespace: "{{ lookup('ansible.builtin.env', 'HARVESTER_NAMESPACE') | default('default') }}"
+        harvesterpy_verify_ssl: "{{ lookup('ansible.builtin.env', 'HARVESTER_VERIFY_SSL') | default('false') }}"
+
+  tasks:
+    - name: Get VM information
+      harvester_vm_info:
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
+        name: "{{ vm_name }}"
+        namespace: "{{ harvesterpy_namespace }}"
+        gather_instance: true
+        verify_ssl: "{{ harvesterpy_verify_ssl }}"
+      register: vm_info
+
+    - name: Display VM exists status
+      debug:
+        msg: "VM '{{ vm_name }}' exists: {{ vm_info.exists }}"
+
+    - name: Display VM status
+      debug:
+        msg:
+          - "VM Name: {{ vm_info.vm.metadata.name }}"
+          - "Namespace: {{ vm_info.vm.metadata.namespace }}"
+          - "Status: {{ vm_info.vm.status.printableStatus | default('Unknown') }}"
+          - "Ready: {{ vm_info.vm.status.ready | default(false) }}"
+          - "Running: {{ vm_info.vm.spec.running | default(false) }}"
+      when: vm_info.exists
+
+    - name: Display VMI status
+      debug:
+        msg:
+          - "Instance exists: {{ vm_info.instance_exists }}"
+          - "Phase: {{ vm_info.instance.status.phase | default('N/A') }}"
+      when: vm_info.exists
+
+    - name: Display network interfaces
+      debug:
+        msg:
+          - "Interface: {{ item.name }}"
+          - "IP Address: {{ item.ipAddress | default('No IP') }}"
+          - "MAC Address: {{ item.mac | default('No MAC') }}"
+      loop: "{{ vm_info.instance.status.interfaces | default([]) }}"
+      when: vm_info.instance_exists and vm_info.instance.status.interfaces is defined
+
+    - name: Extract primary IP address
+      set_fact:
+        vm_ip: "{{ vm_info.instance.status.interfaces[0].ipAddress }}"
+      when:
+        - vm_info.instance_exists
+        - vm_info.instance.status.interfaces is defined
+        - vm_info.instance.status.interfaces | length > 0
+        - vm_info.instance.status.interfaces[0].ipAddress is defined
+
+    - name: Display primary IP
+      debug:
+        msg: "Primary IP Address: {{ vm_ip | default('Not assigned') }}"
+
+    - name: Display SSH command
+      debug:
+        msg: "SSH command: ssh ubuntu@{{ vm_ip }}"
+      when: vm_ip is defined
+
+    - name: Wait for VM to get IP if not available
+      harvester_vm_info:
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
+        name: "{{ vm_name }}"
+        namespace: "{{ harvesterpy_namespace }}"
+        gather_instance: true
+        verify_ssl: "{{ harvesterpy_verify_ssl }}"
+      register: vm_info_retry
+      until:
+        - vm_info_retry.instance_exists
+        - vm_info_retry.instance.status.interfaces is defined
+        - vm_info_retry.instance.status.interfaces | length > 0
+        - vm_info_retry.instance.status.interfaces[0].ipAddress is defined
+      retries: 30
+      delay: 10
+      when: vm_ip is not defined and vm_info.exists
+
+    - name: Display IP after waiting
+      debug:
+        msg: "VM IP Address: {{ vm_info_retry.instance.status.interfaces[0].ipAddress }}"
+      when:
+        - vm_info_retry is defined
+        - vm_info_retry.instance_exists
+        - vm_info_retry.instance.status.interfaces is defined
