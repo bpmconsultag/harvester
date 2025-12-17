@@ -2,4 +2,4 @@
 # Collection runtime metadata
 # This file describes the minimum Ansible version required
 
-requires_ansible: ">=2.14.0"
+requires_ansible: ">=2.15.0"
