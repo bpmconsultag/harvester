@@ -31,13 +31,6 @@ warn_list:
 # Use default rules set
 use_default_rules: true
 
-# Set specific rule configurations
-rules:
-  line-length:
-    max: 160
-  var-naming:
-    pattern: "^[a-z_][a-z0-9_]*$"
-  
 # Mock modules to avoid import errors
 mock_modules:
   - harvesterpy
