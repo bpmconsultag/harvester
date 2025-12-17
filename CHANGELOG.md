@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-12-17
+
+### Changed
+- Renamed role from `harvesterpy` to `harvester` for clarity
+- Renamed all role variables from `harvesterpy_*` to `harvester_*` prefix
+- Updated repository URLs from harvesterpy to harvester
+- Updated all documentation and examples to reflect new naming
+
+### Notes
+- The role name is now `harvester` to distinguish it from the `harvesterpy` Python library
+- Python library name remains `harvesterpy` - only the Ansible role name changed
+
 ## [1.0.0] - 2025-12-17
 
 ### Added
@@ -26,4 +38,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SSL certificate verification options
 - Customizable timeouts and namespaces
 
+[1.0.1]: https://github.com/bpmconsultag/harvester/releases/tag/v1.0.1
 [1.0.0]: https://github.com/bpmconsultag/harvester/releases/tag/v1.0.0
