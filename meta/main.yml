@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: harvesterpy
+  role_name: harvester
   author: bpmconsultag
   description: Ansible role for managing SUSE Harvester HCI resources
   company: bpmconsultag

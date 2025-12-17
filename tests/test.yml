@@ -1,18 +1,18 @@
 ---
-# Test playbook for the harvesterpy role
+# Test playbook for the harvester role
 # This playbook can be used to verify the role works correctly
 
-- name: Test harvesterpy role installation
+- name: Test harvester role installation
   hosts: localhost
   gather_facts: false
   
   tasks:
-    - name: Include harvesterpy role
+    - name: Include harvester role
       include_role:
-        name: harvesterpy
+        name: harvester
       vars:
-        harvesterpy_host: "https://harvester-test.example.com"
-        harvesterpy_token: "test-token"
+        harvester_host: "https://harvester-test.example.com"
+        harvester_token: "test-token"
 
     - name: Verify harvesterpy module is available
       command: python3 -c "import harvesterpy; print('harvesterpy version:', harvesterpy.__version__)"

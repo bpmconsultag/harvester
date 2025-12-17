@@ -11,8 +11,8 @@
   pre_tasks:
     - name: Load Harvester settings from environment variables (use dotenv to export before running)
       set_fact:
-        harvesterpy_host: "{{ lookup('ansible.builtin.env', 'HARVESTER_HOST') }}"
-        harvesterpy_token: "{{ lookup('ansible.builtin.env', 'HARVESTER_TOKEN') }}"
+        harvester_host: "{{ lookup('ansible.builtin.env', 'HARVESTER_HOST') }}"
+        harvester_token: "{{ lookup('ansible.builtin.env', 'HARVESTER_TOKEN') }}"
         harvester_namespace: "{{ lookup('ansible.builtin.env', 'HARVESTER_NAMESPACE') | default('default') }}"
         harvester_verify_ssl: "{{ lookup('ansible.builtin.env', 'HARVESTER_VERIFY_SSL') | default('true') }}"
         harvester_network: "{{ lookup('ansible.builtin.env', 'HARVESTER_NETWORK') | default('br-clients') }}"
@@ -20,8 +20,8 @@
   tasks:
     - name: Create an image for the VM
       harvester_image:
-        host: "{{ harvesterpy_host }}"
-        token: "{{ harvesterpy_token }}"
+        host: "{{ harvester_host }}"
+        token: "{{ harvester_token }}"
         name: "ubuntu-24.04"
         namespace: "{{ harvester_namespace }}"
         state: present
@@ -33,8 +33,8 @@
 
     - name: Create a volume for the VM
       harvester_volume:
-        host: "{{ harvesterpy_host }}"
-        token: "{{ harvesterpy_token }}"
+        host: "{{ harvester_host }}"
+        token: "{{ harvester_token }}"
         name: "{{ vm_name }}-disk"
         namespace: "{{ harvester_namespace }}"
         state: present
@@ -56,8 +56,8 @@
     - name: Create a virtual machine
       harvester_vm:
         debug: true
-        host: "{{ harvesterpy_host }}"
-        token: "{{ harvesterpy_token }}"
+        host: "{{ harvester_host }}"
+        token: "{{ harvester_token }}"
         name: "{{ vm_name }}"
         namespace: "{{ harvester_namespace }}"
         state: present

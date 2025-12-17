@@ -1,4 +1,4 @@
 ---
-# Handlers for the harvesterpy role
+# Handlers for the harvester role
 # Currently no handlers are defined as the role primarily provides modules
 # Add custom handlers here as needed for your specific use cases

@@ -1,9 +1,9 @@
 ---
-# Galaxy metadata for the harvesterpy role
+# Galaxy metadata for the harvester role
 # This file is used when publishing to Ansible Galaxy
 
 namespace: bpmconsultag
-name: harvesterpy
+name: harvester
 version: 1.0.0
 
 readme: README.md
@@ -30,10 +30,10 @@ tags:
 
 dependencies: {}
 
-repository: https://github.com/bpmconsultag/harvesterpy
-documentation: https://github.com/bpmconsultag/harvesterpy/tree/main/harvester
-homepage: https://github.com/bpmconsultag/harvesterpy
-issues: https://github.com/bpmconsultag/harvesterpy/issues
+repository: https://github.com/bpmconsultag/harvester
+documentation: https://github.com/bpmconsultag/harvester
+homepage: https://github.com/bpmconsultag/harvester
+issues: https://github.com/bpmconsultag/harvester/issues
 
 build_ignore:
   - .git

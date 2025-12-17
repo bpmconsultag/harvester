@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-12-17
 
 ### Added
-- Initial release of harvesterpy Ansible role
+- Initial release of harvester Ansible role
 - Support for managing Harvester virtual machines
 - Support for managing Harvester images
 - Support for managing Harvester volumes
