@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ansible-version: ['2.20']
+        ansible-version: ['2.20.0']
     
     steps:
       - name: Checkout code
