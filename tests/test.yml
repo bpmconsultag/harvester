@@ -11,8 +11,8 @@
       include_role:
         name: harvesterpy
       vars:
-        harvester_host: "https://harvester-test.example.com"
-        harvester_token: "test-token"
+        harvesterpy_host: "https://harvester-test.example.com"
+        harvesterpy_token: "test-token"
 
     - name: Verify harvesterpy module is available
       command: python3 -c "import harvesterpy; print('harvesterpy version:', harvesterpy.__version__)"

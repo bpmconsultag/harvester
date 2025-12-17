@@ -60,8 +60,8 @@ Available variables are listed below, along with default values (see `defaults/m
 
 ```yaml
 # Harvester API connection settings
-harvester_host: ""                    # Harvester host URL (required)
-harvester_token: ""                   # API token for authentication
+harvesterpy_host: ""                    # Harvester host URL (required)
+harvesterpy_token: ""                   # API token for authentication
 harvester_verify_ssl: true            # Verify SSL certificates
 harvester_timeout: 30                 # Request timeout in seconds
 
@@ -188,14 +188,14 @@ This role has no dependencies on other Ansible roles. It will automatically inst
   hosts: localhost
   gather_facts: false
   vars:
-    harvester_host: "https://harvester.example.com"
-    harvester_token: "your-api-token"
+    harvesterpy_host: "https://harvester.example.com"
+    harvesterpy_token: "your-api-token"
   
   tasks:
     - name: Create VM image
       harvester_image:
-        host: "{{ harvester_host }}"
-        token: "{{ harvester_token }}"
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
         name: "ubuntu-20.04"
         state: present
         url: "https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64.img"
@@ -203,16 +203,16 @@ This role has no dependencies on other Ansible roles. It will automatically inst
 
     - name: Create VM volume
       harvester_volume:
-        host: "{{ harvester_host }}"
-        token: "{{ harvester_token }}"
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
         name: "my-vm-disk"
         state: present
         storage: "20Gi"
 
     - name: Create virtual machine
       harvester_vm:
-        host: "{{ harvester_host }}"
-        token: "{{ harvester_token }}"
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
         name: "my-ubuntu-vm"
         state: present
         cpu_cores: 4
@@ -233,29 +233,29 @@ This role has no dependencies on other Ansible roles. It will automatically inst
   hosts: localhost
   gather_facts: false
   vars:
-    harvester_host: "https://harvester.example.com"
-    harvester_token: "your-api-token"
+    harvesterpy_host: "https://harvester.example.com"
+    harvesterpy_token: "your-api-token"
     vm_name: "my-vm"
   
   tasks:
     - name: Stop VM
       harvester_vm:
-        host: "{{ harvester_host }}"
-        token: "{{ harvester_token }}"
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
         name: "{{ vm_name }}"
         state: stopped
 
     - name: Start VM
       harvester_vm:
-        host: "{{ harvester_host }}"
-        token: "{{ harvester_token }}"
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
         name: "{{ vm_name }}"
         state: started
 
     - name: Restart VM
       harvester_vm:
-        host: "{{ harvester_host }}"
-        token: "{{ harvester_token }}"
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
         name: "{{ vm_name }}"
         state: restarted
 ```
@@ -269,14 +269,14 @@ This role has no dependencies on other Ansible roles. It will automatically inst
   roles:
     - role: bpmconsultag.harvesterpy
       vars:
-        harvester_host: "https://harvester.example.com"
-        harvester_token: "your-api-token"
+        harvesterpy_host: "https://harvester.example.com"
+        harvesterpy_token: "your-api-token"
   
   tasks:
     - name: Create VM using role defaults
       harvester_vm:
-        host: "{{ harvester_host }}"
-        token: "{{ harvester_token }}"
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
         name: "test-vm"
         state: present
 ```

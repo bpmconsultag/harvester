@@ -10,16 +10,16 @@
   pre_tasks:
     - name: Load Harvester settings from environment variables (use dotenv to export before running)
       set_fact:
-        harvester_host: "{{ lookup('ansible.builtin.env', 'HARVESTER_HOST') }}"
-        harvester_token: "{{ lookup('ansible.builtin.env', 'HARVESTER_TOKEN') }}"
+        harvesterpy_host: "{{ lookup('ansible.builtin.env', 'HARVESTER_HOST') }}"
+        harvesterpy_token: "{{ lookup('ansible.builtin.env', 'HARVESTER_TOKEN') }}"
         harvester_namespace: "{{ lookup('ansible.builtin.env', 'HARVESTER_NAMESPACE') | default('default') }}"
         harvester_verify_ssl: "{{ lookup('ansible.builtin.env', 'HARVESTER_VERIFY_SSL') | default('true') }}"
   
   tasks:
     - name: Delete virtual machine
       harvester_vm:
-        host: "{{ harvester_host }}"
-        token: "{{ harvester_token }}"
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
         name: "my-ubuntu-vm"
         namespace: "{{ harvester_namespace }}"
         state: absent
@@ -28,8 +28,8 @@
 
     - name: Delete volume
       harvester_volume:
-        host: "{{ harvester_host }}"
-        token: "{{ harvester_token }}"
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
         name: "my-vm-disk"
         namespace: "{{ harvester_namespace }}"
         state: absent
@@ -38,8 +38,8 @@
 
     - name: Delete image
       harvester_image:
-        host: "{{ harvester_host }}"
-        token: "{{ harvester_token }}"
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
         name: "ubuntu-20.04"
         namespace: "{{ harvester_namespace }}"
         state: absent

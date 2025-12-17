@@ -2,28 +2,28 @@
 # Default variables for the harvesterpy role
 
 # Harvester API connection settings
-harvester_host: ""
-harvester_token: ""
-harvester_verify_ssl: true
-harvester_timeout: 30
+harvesterpy_host: ""
+harvesterpy_token: ""
+harvesterpy_verify_ssl: true
+harvesterpy_timeout: 30
 
 # Default namespace for resources
-harvester_namespace: "default"
+harvesterpy_namespace: "default"
 
 # VM defaults
-harvester_vm_state: "present"
-harvester_vm_running: true
-harvester_vm_cpu_cores: 2
-harvester_vm_memory: "4Gi"
+harvesterpy_vm_state: "present"
+harvesterpy_vm_running: true
+harvesterpy_vm_cpu_cores: 2
+harvesterpy_vm_memory: "4Gi"
 
 # Image defaults
-harvester_image_state: "present"
+harvesterpy_image_state: "present"
 
 # Volume defaults
-harvester_volume_state: "present"
-harvester_volume_access_modes:
+harvesterpy_volume_state: "present"
+harvesterpy_volume_access_modes:
   - ReadWriteOnce
-harvester_volume_storage: "10Gi"
+harvesterpy_volume_storage: "10Gi"
 
 # Network defaults
-harvester_network_state: "present"
+harvesterpy_network_state: "present"
