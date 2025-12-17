@@ -1,7 +1,7 @@
 ---
 name: Release to Galaxy
 
-on:
+'on':
   release:
     types: [published]
 
@@ -9,7 +9,7 @@ jobs:
   publish:
     name: Publish to Ansible Galaxy
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

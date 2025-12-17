@@ -1,7 +1,7 @@
 ---
 name: CI
 
-on:
+'on':
   push:
     branches: [main]
   pull_request:
@@ -11,7 +11,7 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -42,7 +42,7 @@ jobs:
     strategy:
       matrix:
         ansible-version: ['12.3.0']
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
