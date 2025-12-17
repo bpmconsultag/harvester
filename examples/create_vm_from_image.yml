@@ -1,0 +1,126 @@
+---
+# Example playbook: Create a virtual machine in Harvester from an existing image
+# This playbook demonstrates how to create a VM using volumeClaimTemplates
+# to automatically clone a volume from an image without creating it separately
+
+- name: Create VM from existing image template
+  hosts: localhost
+  gather_facts: false
+  vars:
+    # VM configuration
+    vm_name: "my-vm-from-image"
+    vm_cpu_cores: 4
+    vm_memory: "8Gi"
+    vm_disk_size: "50Gi"
+    
+    # Reference to existing image in Harvester
+    # This should be the actual image name (not display name)
+    vm_image_name: "ubuntu-24.04"
+
+  pre_tasks:
+    - name: Load Harvester settings from environment variables
+      set_fact:
+        harvesterpy_host: "{{ lookup('ansible.builtin.env', 'HARVESTER_HOST') }}"
+        harvesterpy_token: "{{ lookup('ansible.builtin.env', 'HARVESTER_TOKEN') }}"
+        harvesterpy_namespace: "{{ lookup('ansible.builtin.env', 'HARVESTER_NAMESPACE') | default('default') }}"
+        harvesterpy_verify_ssl: "{{ lookup('ansible.builtin.env', 'HARVESTER_VERIFY_SSL') | default('false') }}"
+        harvesterpy_network: "{{ lookup('ansible.builtin.env', 'HARVESTER_NETWORK') | default('default') }}"
+
+    - name: Display configuration summary
+      debug:
+        msg:
+          - "VM Creation Configuration:"
+          - "  VM Name: {{ vm_name }}"
+          - "  CPU Cores: {{ vm_cpu_cores }}"
+          - "  Memory: {{ vm_memory }}"
+          - "  Disk Size: {{ vm_disk_size }}"
+          - "  Source Image: {{ vm_image_name }}"
+          - "  Network: {{ harvesterpy_network }}"
+          - "  Namespace: {{ harvesterpy_namespace }}"
+          - "  Harvester Host: {{ harvesterpy_host }}"
+
+  tasks:
+    - name: Create virtual machine from image template
+      harvester_vm:
+        host: "{{ harvesterpy_host }}"
+        token: "{{ harvesterpy_token }}"
+        name: "{{ vm_name }}"
+        namespace: "{{ harvesterpy_namespace }}"
+        state: present
+        running: true
+        cpu_cores: "{{ vm_cpu_cores }}"
+        memory: "{{ vm_memory }}"
+        
+        # The volumeClaimTemplates annotation tells Harvester to automatically
+        # create a volume from the specified image when creating the VM
+        annotations:
+          harvesterhci.io/volumeClaimTemplates: >-
+            [{"metadata":{"name":"{{ vm_name }}-disk","annotations":{"harvesterhci.io/imageId":"{{ harvesterpy_namespace }}/{{ vm_image_name }}"}},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"{{ vm_disk_size }}"}},"volumeMode":"Block","storageClassName":"longhorn-{{ vm_image_name }}"}}]
+        
+        disks:
+          - name: disk0
+            volume_name: "{{ vm_name }}-disk"
+            bus: virtio
+        
+        interfaces:
+          - bridge: {}
+            model: virtio
+            name: default
+        
+        networks:
+          - name: "default"
+            multus:
+              networkName: "{{ harvesterpy_namespace }}/{{ harvesterpy_network }}"
+        
+        labels:
+          app: example
+          created-by: ansible
+        
+        cloud_init:
+          user_data:
+            hostname: "{{ vm_name }}"
+            network:
+              version: 2
+              ethernets:
+                eth0:
+                  dhcp4: true
+                  nameservers:
+                    addresses:
+                      - 8.8.8.8
+                      - 8.8.4.4
+            resolv_conf:
+              nameservers:
+                - 8.8.8.8
+                - 8.8.4.4
+            users:
+              - name: ubuntu
+                sudo: "ALL=(ALL) NOPASSWD:ALL"
+                shell: /bin/bash
+                # Default password: ubuntu (change on first login)
+                passwd: "{{ 'ubuntu' | password_hash('sha512') }}"
+                lock_passwd: false
+            package_update: true
+            package_upgrade: true
+            packages:
+              - qemu-guest-agent
+            runcmd:
+              - systemctl enable --now qemu-guest-agent || true
+        
+        verify_ssl: "{{ harvesterpy_verify_ssl }}"
+      register: vm_result
+
+  post_tasks:
+    - name: Display completion message
+      debug:
+        msg:
+          - "VM created successfully from image template!"
+          - "VM Name: {{ vm_result.vm.metadata.name }}"
+          - "CPU Cores: {{ vm_cpu_cores }}"
+          - "Memory: {{ vm_memory }}"
+          - "Disk Size: {{ vm_disk_size }}"
+          - "Source Image: {{ vm_image_name }}"
+          - "Status: {{ vm_result.message }}"
+          - ""
+          - "Note: The volume was automatically created from the image"
+          - "Default credentials: ubuntu/ubuntu (change on first login)"
+          - "Wait for the VM to fully start and get an IP address from Harvester"

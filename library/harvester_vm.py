@@ -442,6 +442,12 @@ def build_vm_spec(module_params, debug=False):
             }
         }
     }
+    
+    # Add annotations to VM metadata if provided
+    if module_params.get('annotations'):
+        if 'annotations' not in vm_spec['metadata']:
+            vm_spec['metadata']['annotations'] = {}
+        vm_spec['metadata']['annotations'].update(module_params['annotations'])
 
     return vm_spec
 
@@ -464,6 +470,7 @@ def main():
             networks=dict(type='list', elements='dict', required=False),
             interfaces=dict(type='list', elements='dict', required=False),
             labels=dict(type='dict', required=False, default=None),
+            annotations=dict(type='dict', required=False, default=None),
             spec=dict(type='dict', required=False),
             cloud_init=dict(type='dict', required=False, default=None),
             debug=dict(type='bool', required=False, default=False),
