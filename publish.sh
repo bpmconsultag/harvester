@@ -1,0 +1,1 @@
+ansible-galaxy role import --token $ANSIBLE_GALAXY_TOKEN bpmconsultag harvesterpy

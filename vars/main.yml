@@ -1,0 +1,4 @@
+---
+# Internal variables for the harvesterpy role
+# These variables are not meant to be overridden by users
+# Use defaults/main.yml for user-configurable variables

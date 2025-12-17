@@ -1,0 +1,47 @@
+---
+# .ansible-lint configuration for Harvester role
+
+profile: production
+
+# Exclude specific paths from linting
+exclude_paths:
+  - .git/
+  - examples/
+  - .github/
+
+# Enable offline mode for CI/CD
+offline: false
+
+# Skip specific rules if needed
+skip_list:
+  - yaml[line-length]  # Allow longer lines in YAML files
+  - fqcn[action-core]  # Allow short-form module names for core modules
+
+# Enable specific rules
+enable_list:
+  - no-changed-when
+  - no-handler
+  - yaml
+
+# Warning rules
+warn_list:
+  - experimental
+  - role-name
+
+# Use default rules set
+use_default_rules: true
+
+# Set specific rule configurations
+rules:
+  line-length:
+    max: 160
+  var-naming:
+    - pattern: "^[a-z_][a-z0-9_]*$"
+  
+# Mock modules to avoid import errors
+mock_modules:
+  - harvesterpy
+
+# Mock roles to avoid dependency errors during linting
+mock_roles:
+  - bpmconsultag.harvesterpy

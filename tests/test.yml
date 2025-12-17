@@ -1,0 +1,37 @@
+---
+# Test playbook for the harvesterpy role
+# This playbook can be used to verify the role works correctly
+
+- name: Test harvesterpy role installation
+  hosts: localhost
+  gather_facts: false
+  
+  tasks:
+    - name: Include harvesterpy role
+      include_role:
+        name: harvesterpy
+      vars:
+        harvester_host: "https://harvester-test.example.com"
+        harvester_token: "test-token"
+
+    - name: Verify harvesterpy module is available
+      command: python3 -c "import harvesterpy; print('harvesterpy version:', harvesterpy.__version__)"
+      register: version_check
+      changed_when: false
+      failed_when: false
+
+    - name: Display version check result
+      debug:
+        msg: "{{ version_check.stdout }}"
+      when: version_check.rc == 0
+
+    - name: Test module documentation
+      command: ansible-doc harvester_vm
+      register: doc_check
+      changed_when: false
+      failed_when: false
+
+    - name: Display documentation check result
+      debug:
+        msg: "Module documentation is available"
+      when: doc_check.rc == 0

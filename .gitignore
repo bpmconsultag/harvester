@@ -3,12 +3,14 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
 
 # Virtual environments
 env/
 venv/
 ENV/
 .venv
+.Python
 
 # IDE
 .vscode/
@@ -16,7 +18,26 @@ ENV/
 *.swp
 *.swo
 *~
+.project
+.pydevproject
 
 # OS
 .DS_Store
 Thumbs.db
+*.log
+
+# Ansible
+*.retry
+.ansible/
+*.tar.gz
+
+# Testing
+.pytest_cache/
+.tox/
+.coverage
+htmlcov/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

@@ -1,0 +1,51 @@
+---
+# Galaxy metadata for the harvesterpy role
+# This file is used when publishing to Ansible Galaxy
+
+namespace: bpmconsultag
+name: harvesterpy
+version: 1.0.0
+
+readme: README.md
+
+authors:
+  - bpmconsultag
+
+description: Ansible role for managing SUSE Harvester HCI resources
+
+license:
+  - MIT
+
+license_file: LICENSE
+
+tags:
+  - harvester
+  - hci
+  - virtualization
+  - vm
+  - suse
+  - infrastructure
+  - cloud
+  - kubernetes
+
+dependencies: {}
+
+repository: https://github.com/bpmconsultag/harvesterpy
+documentation: https://github.com/bpmconsultag/harvesterpy/tree/main/harvester
+homepage: https://github.com/bpmconsultag/harvesterpy
+issues: https://github.com/bpmconsultag/harvesterpy/issues
+
+build_ignore:
+  - .git
+  - .github
+  - .gitignore
+  - .ansible-lint
+  - examples
+  - tests
+  - "*.pyc"
+  - __pycache__
+  - "*.swp"
+  - "*.swo"
+  - "*~"
+  - .DS_Store
+  - Thumbs.db
