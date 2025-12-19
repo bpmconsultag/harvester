@@ -4,7 +4,7 @@
 
 namespace: bpmconsultag
 name: harvester
-version: 1.0.3
+version: 1.0.5
 
 readme: README.md
 
@@ -13,10 +13,7 @@ authors:
 
 description: Ansible collection for managing SUSE Harvester HCI resources including custom modules for VMs, images, volumes, and networks
 
-license:
-  - MIT
-
-license_file: LICENSE
+license: MIT
 
 tags:
   - harvester
