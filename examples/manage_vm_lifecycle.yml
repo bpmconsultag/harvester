@@ -18,7 +18,7 @@
   
   tasks:
     - name: Stop the virtual machine
-      harvester_vm:
+      bpmconsultag.harvester.harvester_vm:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "{{ vm_name }}"
@@ -31,7 +31,7 @@
         seconds: 10
 
     - name: Start the virtual machine
-      harvester_vm:
+      bpmconsultag.harvester.harvester_vm:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "{{ vm_name }}"
@@ -40,7 +40,7 @@
       register: start_result
 
     - name: Restart the virtual machine
-      harvester_vm:
+      bpmconsultag.harvester.harvester_vm:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "{{ vm_name }}"

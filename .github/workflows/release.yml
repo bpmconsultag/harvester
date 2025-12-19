@@ -24,8 +24,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install ansible
 
+      - name: Build collection
+        run: |
+          ansible-galaxy collection build --force
+
       - name: Publish to Galaxy
         env:
           ANSIBLE_GALAXY_TOKEN: ${{ secrets.GALAXY_API_KEY }}
         run: |
-          ansible-galaxy role import --token $ANSIBLE_GALAXY_TOKEN bpmconsultag harvester
+          ansible-galaxy collection publish ./bpmconsultag-harvester-*.tar.gz --token "$ANSIBLE_GALAXY_TOKEN"

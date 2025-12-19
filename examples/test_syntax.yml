@@ -20,7 +20,7 @@
         msg: "This playbook tests the Ansible role syntax and structure"
 
     - name: Test harvester_vm module syntax (check mode)
-      harvester_vm:
+      bpmconsultag.harvester.harvester_vm:
         host: "https://harvester.example.com"
         token: "test-token"
         name: "test-vm"
@@ -30,7 +30,7 @@
       register: vm_test
 
     - name: Test harvester_image module syntax (check mode)
-      harvester_image:
+      bpmconsultag.harvester.harvester_image:
         host: "https://harvester.example.com"
         token: "test-token"
         name: "test-image"
@@ -41,7 +41,7 @@
       register: image_test
 
     - name: Test harvester_volume module syntax (check mode)
-      harvester_volume:
+      bpmconsultag.harvester.harvester_volume:
         host: "https://harvester.example.com"
         token: "test-token"
         name: "test-volume"
@@ -52,7 +52,7 @@
       register: volume_test
 
     - name: Test harvester_network module syntax (check mode)
-      harvester_network:
+      bpmconsultag.harvester.harvester_network:
         host: "https://harvester.example.com"
         token: "test-token"
         name: "test-network"

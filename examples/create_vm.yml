@@ -15,11 +15,11 @@
         harvester_token: "{{ lookup('ansible.builtin.env', 'HARVESTER_TOKEN') }}"
         harvester_namespace: "{{ lookup('ansible.builtin.env', 'HARVESTER_NAMESPACE') | default('default') }}"
         harvester_verify_ssl: "{{ lookup('ansible.builtin.env', 'HARVESTER_VERIFY_SSL') | default('true') }}"
-        harvester_network: "{{ lookup('ansible.builtin.env', 'HARVESTER_NETWORK') | default('br-clients') }}"
+        bpmconsultag.harvester.harvester_network: "{{ lookup('ansible.builtin.env', 'HARVESTER_NETWORK') | default('br-clients') }}"
   
   tasks:
     - name: Create an image for the VM
-      harvester_image:
+      bpmconsultag.harvester.harvester_image:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "ubuntu-24.04"
@@ -32,7 +32,7 @@
       register: image_result
 
     - name: Create a volume for the VM
-      harvester_volume:
+      bpmconsultag.harvester.harvester_volume:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "{{ vm_name }}-disk"
@@ -54,7 +54,7 @@
         msg: "HARVESTER_NETWORK is {{ lookup('env', 'HARVESTER_NETWORK') }}"
 
     - name: Create a virtual machine
-      harvester_vm:
+      bpmconsultag.harvester.harvester_vm:
         debug: true
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"

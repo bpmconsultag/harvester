@@ -17,7 +17,7 @@
   
   tasks:
     - name: Delete virtual machine
-      harvester_vm:
+      bpmconsultag.harvester.harvester_vm:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "my-ubuntu-vm"
@@ -27,7 +27,7 @@
       ignore_errors: true
 
     - name: Delete volume
-      harvester_volume:
+      bpmconsultag.harvester.harvester_volume:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "my-vm-disk"
@@ -37,7 +37,7 @@
       ignore_errors: true
 
     - name: Delete image
-      harvester_image:
+      bpmconsultag.harvester.harvester_image:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "ubuntu-20.04"

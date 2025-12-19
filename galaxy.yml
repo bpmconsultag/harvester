@@ -11,7 +11,7 @@ readme: README.md
 authors:
   - bpmconsultag
 
-description: Ansible role for managing SUSE Harvester HCI resources
+description: Ansible collection for managing SUSE Harvester HCI resources including custom modules for VMs, images, volumes, and networks
 
 license:
   - MIT

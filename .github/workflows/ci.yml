@@ -61,14 +61,18 @@ jobs:
         run: |
           pip install harvesterpy
 
+      - name: Build and install collection
+        run: |
+          ansible-galaxy collection build --force
+          ansible-galaxy collection install ./bpmconsultag-harvester-*.tar.gz --force
+
       - name: Run syntax check
         run: |
           ansible-playbook tests/test.yml --syntax-check
 
       - name: Check module documentation
         run: |
-          export ANSIBLE_LIBRARY=./library
-          ansible-doc harvester_vm
-          ansible-doc harvester_image
-          ansible-doc harvester_volume
-          ansible-doc harvester_network
+          ansible-doc bpmconsultag.harvester.harvester_vm
+          ansible-doc bpmconsultag.harvester.harvester_image
+          ansible-doc bpmconsultag.harvester.harvester_volume
+          ansible-doc bpmconsultag.harvester.harvester_network

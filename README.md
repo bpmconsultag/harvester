@@ -1,6 +1,6 @@
-# Ansible Role: harvester
+# Ansible Collection: bpmconsultag.harvester
 
-An Ansible role for managing SUSE Harvester HCI resources using the harvesterpy Python library.
+An Ansible collection for managing SUSE Harvester HCI resources using the harvesterpy Python library.
 
 ## Description
 
@@ -17,22 +17,24 @@ This role provides Ansible modules to manage virtual machines, images, volumes, 
 
 ### From Ansible Galaxy (when published)
 
-
 ```bash
-ansible-galaxy install bpmconsultag.harvester
+ansible-galaxy collection install bpmconsultag.harvester
 ```
 
 ### From Source
 
-
-
 ```bash
 git clone https://github.com/bpmconsultag/harvester.git
 cd harvester
-ansible-galaxy install -r requirements.yml
+ansible-galaxy collection build --force
+ansible-galaxy collection install ./bpmconsultag-harvester-*.tar.gz --force
 ```
 
-Or reference the role directly in your playbook from the repository.
+Or install directly from Git:
+
+```bash
+ansible-galaxy collection install git+https://github.com/bpmconsultag/harvester.git
+```
 
 ## Using the Local harvesterpy Library for Development
 
@@ -170,7 +172,7 @@ This role has no dependencies on other Ansible roles. It will automatically inst
   
   tasks:
     - name: Create virtual machine
-      harvester_vm:
+      bpmconsultag.harvester.harvester_vm:
         host: "https://harvester.example.com"
         token: "your-api-token"
         name: "my-vm"
@@ -193,7 +195,7 @@ This role has no dependencies on other Ansible roles. It will automatically inst
   
   tasks:
     - name: Create VM image
-      harvester_image:
+      bpmconsultag.harvester.harvester_image:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "ubuntu-20.04"
@@ -202,7 +204,7 @@ This role has no dependencies on other Ansible roles. It will automatically inst
         display_name: "Ubuntu 20.04 LTS"
 
     - name: Create VM volume
-      harvester_volume:
+      bpmconsultag.harvester.harvester_volume:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "my-vm-disk"
@@ -210,7 +212,7 @@ This role has no dependencies on other Ansible roles. It will automatically inst
         storage: "20Gi"
 
     - name: Create virtual machine
-      harvester_vm:
+      bpmconsultag.harvester.harvester_vm:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "my-ubuntu-vm"
@@ -239,23 +241,23 @@ This role has no dependencies on other Ansible roles. It will automatically inst
   
   tasks:
     - name: Stop VM
-      harvester_vm:
+      bpmconsultag.harvester.harvester_vm:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "{{ vm_name }}"
         state: stopped
 
     - name: Start VM
-      harvester_vm:
+      bpmconsultag.harvester.harvester_vm:
         host: "{{ harvester_host }}"
         token: "{{ harvester_token }}"
         name: "{{ vm_name }}"
         state: started
 
     - name: Restart VM
-      harvester_vm:
-        host: "{{ harvesterpy_host }}"
-        token: "{{ harvesterpy_token }}"
+      bpmconsultag.harvester.harvester_vm:
+        host: "{{ harvester_host }}"
+        token: "{{ harvester_token }}"
         name: "{{ vm_name }}"
         state: restarted
 ```
