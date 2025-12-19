@@ -13,7 +13,8 @@ authors:
 
 description: Ansible collection for managing SUSE Harvester HCI resources including custom modules for VMs, images, volumes, and networks
 
-license: MIT
+license:
+  - MIT
 
 tags:
   - harvester
