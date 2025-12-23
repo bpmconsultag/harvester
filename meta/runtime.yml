@@ -3,8 +3,3 @@
 # This file describes the minimum Ansible version required
 
 requires_ansible: ">=2.15.0"
-
-python_requirements:
-  - harvesterpy>=1.0.0
-  - passlib>=1.7.4
-  - PyYAML>=5.1
