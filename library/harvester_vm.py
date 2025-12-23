@@ -76,6 +76,13 @@ options:
         required: false
         type: int
         default: 2
+    dedicated_cpu_placement:
+        description:
+            - Enable dedicated CPU placement for improved performance
+            - Pins vCPUs to specific physical CPUs
+        required: false
+        type: bool
+        default: false
     memory:
         description:
             - Memory allocation (e.g., '4Gi', '2048Mi')
@@ -408,7 +415,8 @@ def build_vm_spec(module_params, debug=False):
                 'spec': {
                     'domain': {
                         'cpu': {
-                            'cores': module_params.get('cpu_cores', 2)
+                            'cores': module_params.get('cpu_cores', 2),
+                            'dedicatedCpuPlacement': module_params.get('dedicated_cpu_placement', False)
                         },
                         'memory': {
                             'guest': module_params.get('memory', '4Gi')
@@ -465,6 +473,7 @@ def main():
             state=dict(type='str', required=False, default='present', choices=['present', 'absent', 'started', 'stopped', 'restarted']),
             running=dict(type='bool', required=False, default=True),
             cpu_cores=dict(type='int', required=False, default=2),
+            dedicated_cpu_placement=dict(type='bool', required=False, default=False),
             memory=dict(type='str', required=False, default='4Gi'),
             disks=dict(type='list', elements='dict', required=False),
             networks=dict(type='list', elements='dict', required=False),

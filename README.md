@@ -8,9 +8,10 @@ This role provides Ansible modules to manage virtual machines, images, volumes, 
 
 ## Requirements
 
-- Ansible 2.10 or higher
+- Ansible 2.15 or higher
 - Python 3.8 or higher
 - harvesterpy Python library (see below for local development)
+- passlib Python library (required for password hashing in cloud-init)
 - Access to a SUSE Harvester HCI cluster
 
 ## Installation
